@@ -1,7 +1,7 @@
 package com.opensw.safeguard.service.login;
 
 import com.opensw.safeguard.domain.Member;
-import com.opensw.safeguard.repository.MemberRepository;
+import com.opensw.safeguard.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.User;

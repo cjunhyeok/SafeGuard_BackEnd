@@ -24,22 +24,12 @@ public class LoginController {
     @PostMapping("/login")
     public TokenInfo login(@RequestBody MemberLoginDTO memberLoginDTO){
 
-        TokenInfo tokenInfo = memberService.login(memberLoginDTO.getMemberId(),memberLoginDTO.getPassword());
+        TokenInfo tokenInfo = memberService.login(memberLoginDTO.getUsername(),memberLoginDTO.getPassword());
 
         return tokenInfo;
     }
 
-    @PostMapping("/join")
-    public Member join(@RequestBody MemberJoinDTO memberJoinDTODTO){
 
-        return memberService.join(memberJoinDTODTO.getMemberId(), memberJoinDTODTO.getPassword(), memberJoinDTODTO.getEmail());
-
-
-    }
-//    @PostMapping("/join/duplicate")
-//    public boolean duplicate(@RequestBody String memberId){
-//
-//    }
 
 
 }
