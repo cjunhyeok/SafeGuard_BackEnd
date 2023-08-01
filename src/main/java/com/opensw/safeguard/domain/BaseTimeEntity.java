@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 public class BaseTimeEntity {
 
+
     // 등록일, 수정일을 공용으로 맵핑하기 위한 엔티티
 
     @CreatedDate
