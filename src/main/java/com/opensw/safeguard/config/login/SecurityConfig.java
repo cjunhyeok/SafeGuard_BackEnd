@@ -38,6 +38,7 @@ public class SecurityConfig {
                         {
                             authorizationManagerRequestMatcherRegistry.requestMatchers("/safe/login").permitAll();
                             authorizationManagerRequestMatcherRegistry.requestMatchers("/safe/join").permitAll();
+                            authorizationManagerRequestMatcherRegistry.requestMatchers("/safe/join/emailConfirm").permitAll();
                             authorizationManagerRequestMatcherRegistry.anyRequest().authenticated();
                         })
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);

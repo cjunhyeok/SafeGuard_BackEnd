@@ -29,17 +29,7 @@ public class LoginController {
         return tokenInfo;
     }
 
-    @PostMapping("/join")
-    public Member join(@RequestBody MemberJoinDTO memberJoinDTODTO){
 
-        return memberService.join(memberJoinDTODTO.getMemberId(), memberJoinDTODTO.getPassword(), memberJoinDTODTO.getEmail());
-
-
-    }
-//    @PostMapping("/join/duplicate")
-//    public boolean duplicate(@RequestBody String memberId){
-//
-//    }
 
 
 }
