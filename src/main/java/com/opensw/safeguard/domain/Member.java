@@ -1,6 +1,7 @@
 package com.opensw.safeguard.domain;
 
 
+
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,14 +16,16 @@ import java.util.stream.Collectors;
 @Entity
 @Getter
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // protected 기본 생성자
 @AllArgsConstructor
 
 public class Member extends BaseTimeEntity implements UserDetails {
 
+
     @Id @GeneratedValue
     @Column(name = "member_id")
     private Long id;
+
 
     @Column(length = 255,nullable = false,unique = true,updatable = false)
     private String username;
@@ -73,5 +76,6 @@ public class Member extends BaseTimeEntity implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+
     }
 }
