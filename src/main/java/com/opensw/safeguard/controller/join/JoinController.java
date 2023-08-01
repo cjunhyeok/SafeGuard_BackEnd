@@ -1,13 +1,13 @@
 package com.opensw.safeguard.controller.join;
 
 import com.opensw.safeguard.domain.Member;
-import com.opensw.safeguard.domain.dto.EmailConfirmDTO;
-import com.opensw.safeguard.domain.dto.MemberJoinDTO;
+import com.opensw.safeguard.domain.dto.*;
 import com.opensw.safeguard.service.join.EmailService;
 import com.opensw.safeguard.service.join.MemberJoinService;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,20 +26,22 @@ public class JoinController {
     @PostMapping("/join")
     public Member join(@RequestBody MemberJoinDTO memberJoinDTODTO){
 
-        return memberJoinService.join(memberJoinDTODTO.getMemberId(), memberJoinDTODTO.getPassword(), memberJoinDTODTO.getEmail());
+        return memberJoinService.join(memberJoinDTODTO.getUsername(), memberJoinDTODTO.getPassword(), memberJoinDTODTO.getEmail());
 
 
     }
 
     @PostMapping("/join/emailConfirm")
-    public String emailConfirm(@RequestBody EmailConfirmDTO emailConfirmDTO) throws MessagingException, UnsupportedEncodingException {
-        String authCode = mailService.sendEmail(emailConfirmDTO.getEmail());
-        return authCode;
+    public AuthCode emailConfirm(@RequestBody EmailConfirmDTO emailConfirmDTO) throws MessagingException, UnsupportedEncodingException {
+
+        return mailService.sendEmail(emailConfirmDTO.getEmail());
 
     }
 
-//    @PostMapping("/join/duplicate")
-//    public boolean duplicate(@RequestBody String memberId){
-//
-//    }
+    @PostMapping("/join/duplicate")
+    public ResponseEntity<Boolean> duplicate(@RequestBody DuplicateUsernameDTO duplicateUsernameDTO){
+        return ResponseEntity.ok(memberJoinService.duplicateCheckUsername(duplicateUsernameDTO.getUsername()));
+
+
+    }
 }

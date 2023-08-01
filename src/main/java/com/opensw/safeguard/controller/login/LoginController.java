@@ -24,7 +24,7 @@ public class LoginController {
     @PostMapping("/login")
     public TokenInfo login(@RequestBody MemberLoginDTO memberLoginDTO){
 
-        TokenInfo tokenInfo = memberService.login(memberLoginDTO.getMemberId(),memberLoginDTO.getPassword());
+        TokenInfo tokenInfo = memberService.login(memberLoginDTO.getUsername(),memberLoginDTO.getPassword());
 
         return tokenInfo;
     }

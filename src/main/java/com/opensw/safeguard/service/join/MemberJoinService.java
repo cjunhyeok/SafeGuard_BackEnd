@@ -1,7 +1,7 @@
 package com.opensw.safeguard.service.join;
 
 import com.opensw.safeguard.domain.Member;
-import com.opensw.safeguard.repository.MemberRepository;
+import com.opensw.safeguard.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,8 +25,8 @@ public class MemberJoinService {
 
     }
 
-//    @Transactional
-//    public boolean duplicate(String memberId){
-//
-//    }
+    @Transactional
+    public boolean duplicateCheckUsername(String username){
+        return memberRepository.existsByUsername(username);
+    }
 }

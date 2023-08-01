@@ -1,5 +1,6 @@
 package com.opensw.safeguard.service.join;
 
+import com.opensw.safeguard.domain.dto.AuthCode;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ public class EmailService {
     private final SpringTemplateEngine templateEngine;
     private final JavaMailSender emailSender;
     private String authNum;
+
 
     public void createCode() {
         Random random = new Random();
@@ -57,17 +59,19 @@ public class EmailService {
 
         return message;
     }
-    public String sendEmail(String toEmail) throws MessagingException, UnsupportedEncodingException {
+    public AuthCode sendEmail(String toEmail) throws MessagingException, UnsupportedEncodingException {
 
         //메일전송에 필요한 정보 설정
         MimeMessage emailForm = createEmailForm(toEmail);
         //실제 메일 전송
         emailSender.send(emailForm);
 
-        return authNum; //인증 코드 반환
+        AuthCode authcode = AuthCode.builder().authCode(authNum).build();
+
+        return authcode; //인증 코드 반환
     }
 
-    //타임리프를 이용한 context 설정
+
     public String setContext(String code) {
         Context context = new Context();
         context.setVariable("code", code);

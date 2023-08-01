@@ -1,7 +1,7 @@
 package com.opensw.safeguard.service.login;
 
 import com.opensw.safeguard.domain.Member;
-import com.opensw.safeguard.repository.MemberRepository;
+import com.opensw.safeguard.repository.member.MemberRepository;
 import com.opensw.safeguard.token.JwtTokenProvider;
 import com.opensw.safeguard.token.TokenInfo;
 import lombok.RequiredArgsConstructor;
@@ -49,9 +49,6 @@ public class MemberService  {
 
     }
 
-//    @Transactional
-//    public boolean duplicate(String memberId){
-//
-//    }
+
 
 }
