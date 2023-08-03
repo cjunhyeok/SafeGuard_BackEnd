@@ -43,4 +43,8 @@ public class JoinController {
         return memberJoinService.duplicateCheckUsername(duplicateUsername.getUsername());
 
     }
+    @PostMapping("/test")
+    public void test(){
+
+    }
 }
