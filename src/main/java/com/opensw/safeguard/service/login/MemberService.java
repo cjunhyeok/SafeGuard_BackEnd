@@ -2,8 +2,8 @@ package com.opensw.safeguard.service.login;
 
 import com.opensw.safeguard.domain.Member;
 import com.opensw.safeguard.repository.member.MemberRepository;
-import com.opensw.safeguard.token.JwtTokenProvider;
-import com.opensw.safeguard.token.TokenInfo;
+import com.opensw.safeguard.security.token.JwtTokenProvider;
+import com.opensw.safeguard.security.token.TokenInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

@@ -1,4 +1,4 @@
-package com.opensw.safeguard.token;
+package com.opensw.safeguard.security.token;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

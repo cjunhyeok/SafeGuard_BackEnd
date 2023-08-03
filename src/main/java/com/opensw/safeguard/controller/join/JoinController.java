@@ -2,12 +2,12 @@ package com.opensw.safeguard.controller.join;
 
 import com.opensw.safeguard.domain.Member;
 import com.opensw.safeguard.domain.dto.*;
-import com.opensw.safeguard.service.join.EmailService;
+import com.opensw.safeguard.email.AuthCode;
+import com.opensw.safeguard.email.EmailService;
 import com.opensw.safeguard.service.join.MemberJoinService;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,9 +39,8 @@ public class JoinController {
     }
 
     @PostMapping("/join/duplicate")
-    public ResponseEntity<Boolean> duplicate(@RequestBody DuplicateUsernameDTO duplicateUsernameDTO){
-        return ResponseEntity.ok(memberJoinService.duplicateCheckUsername(duplicateUsernameDTO.getUsername()));
-
+    public DuplicateUsername duplicate(@RequestBody DuplicateUsername duplicateUsername){
+        return memberJoinService.duplicateCheckUsername(duplicateUsername.getUsername());
 
     }
 }

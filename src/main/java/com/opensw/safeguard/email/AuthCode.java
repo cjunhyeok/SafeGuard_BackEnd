@@ -1,4 +1,4 @@
-package com.opensw.safeguard.domain.dto;
+package com.opensw.safeguard.email;
 
 import lombok.Builder;
 import lombok.Getter;
