@@ -26,10 +26,10 @@ public class Alarm {
     private Member member; // 알람, 회원 N : 1 다대일 단방향 매핑
 
     @Builder
-    public Alarm(String message, Boolean isRead, AlarmType alarmType, Member member) {
+    public Alarm(String message, AlarmType alarmType, Member member) {
         this.message = message;
-        this.isRead = isRead;
         this.alarmType = alarmType;
         this.member = member;
+        this.isRead = false;
     }
 }
