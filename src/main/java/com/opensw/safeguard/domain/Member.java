@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // protected 기본 생성자
 @AllArgsConstructor
 
-public class Member extends BaseTimeEntity implements UserDetails{
+public class Member extends BaseTimeEntity {
 
 
     @Id @GeneratedValue
@@ -41,41 +41,6 @@ public class Member extends BaseTimeEntity implements UserDetails{
     private List<String> roles = new ArrayList<>();
 
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles.stream()
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
-    }
 
-    @Override
-    public String getPassword() {
-        return password;
-    }
 
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-
-    }
 }
