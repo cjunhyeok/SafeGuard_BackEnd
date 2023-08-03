@@ -2,6 +2,7 @@ package com.opensw.safeguard.repository.alarm;
 
 import com.opensw.safeguard.domain.Alarm;
 import com.opensw.safeguard.domain.AlarmType;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,23 @@ class AlarmRepositoryTest {
 
         // then
         assertThat(findAlarm).isEqualTo(savedAlarm);
+    }
+
+    @Test
+    @DisplayName("알림 리포지토리 PK 조회 실패 테스트")
+    void findByIdFailTest() {
+        // given
+        Alarm alarm = Alarm.builder()
+                .message("테스트 실패 알림입니다.")
+                .alarmType(AlarmType.WARN)
+                .build();
+        Alarm savedAlarm = alarmRepository.save(alarm);
+
+        // when // then
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> alarmRepository.findById(savedAlarm.getId() + 1).orElseThrow(
+                        () -> new IllegalArgumentException()
+                ));
     }
 
 }
