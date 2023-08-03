@@ -1,6 +1,7 @@
 package com.opensw.safeguard.service.join;
 
 import com.opensw.safeguard.domain.Member;
+import com.opensw.safeguard.domain.dto.DuplicateUsername;
 import com.opensw.safeguard.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,13 @@ public class MemberJoinService {
     }
 
     @Transactional
-    public boolean duplicateCheckUsername(String username){
-        return memberRepository.existsByUsername(username);
+    public DuplicateUsername duplicateCheckUsername(String username){
+        DuplicateUsername duplicateUsername = DuplicateUsername.
+                builder()
+                .username(username)
+                .duplicate(memberRepository.existsByUsername(username))
+                .build();
+        return duplicateUsername;
+
     }
 }

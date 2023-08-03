@@ -1,11 +1,9 @@
 package com.opensw.safeguard.controller.login;
 
 
-import com.opensw.safeguard.domain.Member;
-import com.opensw.safeguard.domain.dto.MemberJoinDTO;
 import com.opensw.safeguard.domain.dto.MemberLoginDTO;
 import com.opensw.safeguard.service.login.MemberService;
-import com.opensw.safeguard.token.TokenInfo;
+import com.opensw.safeguard.security.token.TokenInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;

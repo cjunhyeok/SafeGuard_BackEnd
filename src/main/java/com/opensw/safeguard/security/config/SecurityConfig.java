@@ -1,7 +1,7 @@
-package com.opensw.safeguard.config.login;
+package com.opensw.safeguard.security.config;
 
-import com.opensw.safeguard.filter.login.JwtAuthenticationFilter;
-import com.opensw.safeguard.token.JwtTokenProvider;
+import com.opensw.safeguard.security.filter.JwtAuthenticationFilter;
+import com.opensw.safeguard.security.token.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +12,12 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+/**
+
+ 스프링 시큐리티 config
+
+ **/
 
 @Configuration
 @EnableWebSecurity
@@ -29,7 +35,7 @@ public class SecurityConfig {
                 .csrf(httpSecurityCsrfConfigurer ->
                         {
                             httpSecurityCsrfConfigurer.disable();
-                        })
+                        }) //
                 .sessionManagement(httpSecuritySessionManagementConfigurer ->
                         {
                             httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS);

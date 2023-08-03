@@ -1,4 +1,4 @@
-package com.opensw.safeguard.token;
+package com.opensw.safeguard.security.token;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -28,7 +28,7 @@ public class JwtTokenProvider {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
-
+    //유저정보를 통해서 Access , Refresh 토큰 생성 메서드
     public TokenInfo generateToken(Authentication authentication) {
         // 권한 가져오기
         String authorities = authentication.getAuthorities().stream()
@@ -57,7 +57,7 @@ public class JwtTokenProvider {
                 .refreshToken(refreshToken)
                 .build();
     }
-
+    //토큰 복호화 이후 정보를 가져오는 메서드
     public Authentication getAuthentication(String accessToken) {
         // 토큰 복호화
         Claims claims = parseClaims(accessToken);
