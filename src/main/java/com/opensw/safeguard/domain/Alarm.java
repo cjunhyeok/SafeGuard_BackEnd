@@ -20,16 +20,10 @@ public class Alarm {
     @Enumerated(EnumType.STRING)
     private AlarmType alarmType;
 
-    //== 연관 관계 ==//
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member; // 알람, 회원 N : 1 다대일 단방향 매핑
-
     @Builder
-    public Alarm(String message, AlarmType alarmType, Member member) {
+    public Alarm(String message, AlarmType alarmType) {
         this.message = message;
         this.alarmType = alarmType;
-        this.member = member;
         this.isRead = false;
     }
 }
