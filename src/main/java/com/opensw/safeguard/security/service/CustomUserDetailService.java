@@ -1,4 +1,4 @@
-package com.opensw.safeguard.service.login;
+package com.opensw.safeguard.security.service;
 
 import com.opensw.safeguard.domain.Member;
 import com.opensw.safeguard.repository.member.MemberRepository;

@@ -1,6 +1,5 @@
-package com.opensw.safeguard.service.join;
+package com.opensw.safeguard.email;
 
-import com.opensw.safeguard.domain.dto.AuthCode;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -11,8 +10,6 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Random;
-
-import static org.springframework.security.core.context.SecurityContextHolder.setContext;
 
 @Service
 @RequiredArgsConstructor
