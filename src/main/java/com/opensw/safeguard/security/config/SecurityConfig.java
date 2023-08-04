@@ -1,6 +1,7 @@
 package com.opensw.safeguard.security.config;
 
 import com.opensw.safeguard.security.filter.JwtAuthenticationFilter;
+import com.opensw.safeguard.security.filter.JwtExceptionFilter;
 import com.opensw.safeguard.security.token.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -44,10 +45,12 @@ public class SecurityConfig {
                         {
                             authorizationManagerRequestMatcherRegistry.requestMatchers("/safe/login").permitAll();
                             authorizationManagerRequestMatcherRegistry.requestMatchers("/safe/join/**").permitAll();
-
+                            authorizationManagerRequestMatcherRegistry.requestMatchers("/swagger-ui.html/**").permitAll();
                             authorizationManagerRequestMatcherRegistry.anyRequest().authenticated();
                         })
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtExceptionFilter(),JwtAuthenticationFilter.class);
+
         return http.build();
     }
 
