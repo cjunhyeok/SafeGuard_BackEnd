@@ -12,4 +12,16 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MemoryEmitterRepository implements EmitterRepository{
 
     private final Map<Long, SseEmitter> emitters = new ConcurrentHashMap<>();
+
+    public void save(Long id, SseEmitter sseEmitter) {
+        emitters.put(id, sseEmitter);
+    }
+
+    public void deleteById(Long id) {
+        emitters.remove(id);
+    }
+
+    public SseEmitter findById(Long id) {
+        return emitters.get(id);
+    }
 }
