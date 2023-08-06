@@ -1,5 +1,6 @@
 package com.opensw.safeguard.security.config;
 
+import com.opensw.safeguard.security.entrypoint.RestAuthenticationEntryPoint;
 import com.opensw.safeguard.security.filter.JwtAuthenticationFilter;
 import com.opensw.safeguard.security.filter.JwtExceptionFilter;
 import com.opensw.safeguard.security.token.JwtTokenProvider;
@@ -25,7 +26,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JwtTokenProvider jwtTokenProvider;
-
+    private final JwtExceptionFilter jwtExceptionFilter;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -48,8 +49,11 @@ public class SecurityConfig {
                             authorizationManagerRequestMatcherRegistry.requestMatchers("/swagger-ui.html/**").permitAll();
                             authorizationManagerRequestMatcherRegistry.anyRequest().authenticated();
                         })
+                .exceptionHandling(handling ->{
+                    handling.authenticationEntryPoint(new RestAuthenticationEntryPoint());
+                })
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new JwtExceptionFilter(),JwtAuthenticationFilter.class);
+                .addFilterBefore(jwtExceptionFilter,JwtAuthenticationFilter.class);
 
         return http.build();
     }
