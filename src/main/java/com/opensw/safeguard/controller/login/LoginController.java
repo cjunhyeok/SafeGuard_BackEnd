@@ -2,7 +2,8 @@ package com.opensw.safeguard.controller.login;
 
 
 import com.opensw.safeguard.domain.dto.MemberLoginDTO;
-import com.opensw.safeguard.service.login.MemberService;
+import com.opensw.safeguard.service.login.MemberLoginService;
+import com.opensw.safeguard.service.login.MemberLoginServiceImpl;
 import com.opensw.safeguard.security.token.TokenInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,13 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/safe")
 public class LoginController {
-    private final MemberService memberService;
+    private final MemberLoginService memberLoginService;
 
 
     @PostMapping("/login")
     public TokenInfo login(@RequestBody MemberLoginDTO memberLoginDTO){
 
-        TokenInfo tokenInfo = memberService.login(memberLoginDTO.getUsername(),memberLoginDTO.getPassword());
+        TokenInfo tokenInfo = memberLoginService.login(memberLoginDTO.getUsername(),memberLoginDTO.getPassword());
 
         return tokenInfo;
     }
