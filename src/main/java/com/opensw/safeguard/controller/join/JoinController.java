@@ -5,6 +5,7 @@ import com.opensw.safeguard.domain.dto.*;
 import com.opensw.safeguard.email.AuthCode;
 import com.opensw.safeguard.email.EmailService;
 import com.opensw.safeguard.service.join.MemberJoinService;
+import com.opensw.safeguard.service.join.MemberJoinServiceImpl;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

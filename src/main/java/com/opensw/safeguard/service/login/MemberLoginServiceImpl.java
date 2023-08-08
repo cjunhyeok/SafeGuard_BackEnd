@@ -16,13 +16,14 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class MemberService  {
+public class MemberLoginServiceImpl implements MemberLoginService {
 
     private final MemberRepository memberRepository;
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
 
+    @Override
     @Transactional
     public TokenInfo login(String memberId, String password){
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(memberId, password);
@@ -37,17 +38,7 @@ public class MemberService  {
         return tokenInfo;
     }
 
-    @Transactional
-    public Member join(String memberId,String password , String email){
-        Member member = Member.builder()
-                .username(memberId)
-                .password(password)
-                .email(email)
-                .roles(List.of("USER"))
-                .build();
-        return memberRepository.save(member);
 
-    }
 
 
 
