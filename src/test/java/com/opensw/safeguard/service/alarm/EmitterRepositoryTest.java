@@ -6,6 +6,8 @@ import com.opensw.safeguard.repository.alarm.MemoryEmitterRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.*;
 
 public class EmitterRepositoryTest {
@@ -40,5 +42,24 @@ public class EmitterRepositoryTest {
         // then
         SseEmitter findSseEmitter = emitterRepository.findById(id);
         assertThat(findSseEmitter).isNull();
+    }
+
+    @Test
+    void findAllTest() {
+        // given
+        Long id = 1L;
+        SseEmitter sseEmitter = new SseEmitter(DEFAULT_TIMEOUT);
+        emitterRepository.save(id, sseEmitter);
+        Long id2 = 2L;
+        SseEmitter sseEmitter2 = new SseEmitter(DEFAULT_TIMEOUT);
+        emitterRepository.save(id2, sseEmitter2);
+
+        // when
+        List<SseEmitter> sseEmitters = emitterRepository.findAll();
+
+        // then
+        assertThat(sseEmitters.size()).isEqualTo(2);
+        assertThat(sseEmitters.get(0)).isEqualTo(emitterRepository.findById(id));
+        assertThat(sseEmitters.get(1)).isEqualTo(emitterRepository.findById(id2));
     }
 }
