@@ -3,9 +3,10 @@ package com.opensw.safeguard.service.alarm;
 
 import com.opensw.safeguard.repository.alarm.EmitterRepository;
 import com.opensw.safeguard.repository.alarm.MemoryEmitterRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+
+import static org.assertj.core.api.Assertions.*;
 
 public class EmitterRepositoryTest {
 
@@ -23,6 +24,21 @@ public class EmitterRepositoryTest {
 
         // then
         SseEmitter findEmitter = emitterRepository.findById(id);
-        Assertions.assertThat(findEmitter).isEqualTo(sseEmitter);
+        assertThat(findEmitter).isEqualTo(sseEmitter);
+    }
+
+    @Test
+    void deleteByIdTest() {
+        // given
+        Long id = 1L;
+        SseEmitter sseEmitter = new SseEmitter(DEFAULT_TIMEOUT);
+        emitterRepository.save(id, sseEmitter);
+
+        // when
+        emitterRepository.deleteById(id);
+
+        // then
+        SseEmitter findSseEmitter = emitterRepository.findById(id);
+        assertThat(findSseEmitter).isNull();
     }
 }
