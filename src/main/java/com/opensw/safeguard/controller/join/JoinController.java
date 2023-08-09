@@ -4,11 +4,15 @@ import com.opensw.safeguard.domain.Member;
 import com.opensw.safeguard.domain.dto.*;
 import com.opensw.safeguard.email.AuthCode;
 import com.opensw.safeguard.email.EmailService;
-import com.opensw.safeguard.service.join.MemberJoinService;
-import com.opensw.safeguard.service.join.MemberJoinServiceImpl;
+
+
+import com.opensw.safeguard.service.member.MemberService;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,12 +26,12 @@ import java.io.UnsupportedEncodingException;
 @RequestMapping("/safe")
 public class JoinController {
 
-    private final MemberJoinService memberJoinService;
+    private final MemberService memberService;
     private final EmailService mailService;
     @PostMapping("/join")
     public Member join(@RequestBody MemberJoinDTO memberJoinDTODTO){
 
-        return memberJoinService.join(memberJoinDTODTO.getUsername(), memberJoinDTODTO.getPassword(), memberJoinDTODTO.getEmail());
+        return memberService.join(memberJoinDTODTO.getUsername(), memberJoinDTODTO.getPassword(), memberJoinDTODTO.getEmail());
 
 
     }
@@ -41,11 +45,11 @@ public class JoinController {
 
     @PostMapping("/join/duplicate")
     public DuplicateUsername duplicate(@RequestBody DuplicateUsername duplicateUsername){
-        return memberJoinService.duplicateCheckUsername(duplicateUsername.getUsername());
+        return memberService.duplicateCheckUsername(duplicateUsername.getUsername());
 
     }
     @PostMapping("/test")
-    public void test(){
-
+    public void test(@AuthenticationPrincipal User memberContext){
+        log.info(memberContext.toString());
     }
 }

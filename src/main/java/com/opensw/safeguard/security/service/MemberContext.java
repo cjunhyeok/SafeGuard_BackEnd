@@ -18,7 +18,9 @@ public class MemberContext implements UserDetails {
 
     private final Member member;
 
-
+    public Member getMember(){
+        return member;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
