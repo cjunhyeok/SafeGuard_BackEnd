@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -23,5 +24,10 @@ public class MemoryEmitterRepository implements EmitterRepository{
 
     public SseEmitter findById(Long id) {
         return emitters.get(id);
+    }
+
+    @Override
+    public List<SseEmitter> findAll() {
+        return emitters.values().stream().toList();
     }
 }
