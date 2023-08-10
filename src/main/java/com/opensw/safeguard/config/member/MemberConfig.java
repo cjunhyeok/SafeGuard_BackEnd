@@ -1,9 +1,9 @@
-package com.opensw.safeguard.config;
+package com.opensw.safeguard.config.member;
 
 import com.opensw.safeguard.repository.member.MemberRepository;
 import com.opensw.safeguard.security.token.JwtTokenProvider;
-import com.opensw.safeguard.service.login.MemberLoginService;
-import com.opensw.safeguard.service.login.MemberLoginServiceImpl;
+import com.opensw.safeguard.service.member.MemberService;
+import com.opensw.safeguard.service.member.MemberServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,12 +11,12 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 
 @Configuration
 @RequiredArgsConstructor
-public class LoginConfig {
+public class MemberConfig {
     private final MemberRepository memberRepository;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
     @Bean
-    public MemberLoginService memberLoginService(){
-        return new MemberLoginServiceImpl(memberRepository,authenticationManagerBuilder,jwtTokenProvider);
+    public MemberService memberService(){
+        return new MemberServiceImpl(memberRepository,authenticationManagerBuilder,jwtTokenProvider);
     }
 }

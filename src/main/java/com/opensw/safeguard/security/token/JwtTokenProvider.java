@@ -1,5 +1,6 @@
 package com.opensw.safeguard.security.token;
 
+import com.opensw.safeguard.security.service.MemberContext;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -74,6 +75,7 @@ public class JwtTokenProvider {
 
         // UserDetails 객체를 만들어서 Authentication 리턴
         UserDetails principal = new User(claims.getSubject(), "", authorities);
+
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 
