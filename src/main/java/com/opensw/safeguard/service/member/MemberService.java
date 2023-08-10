@@ -13,4 +13,5 @@ public interface MemberService {
     public DuplicateUsername duplicateCheckUsername(String username);
     public TokenInfo login(String memberId, String password);
     List<Member> findAll();
+    Member findByUsername(String username);
 }

@@ -31,6 +31,7 @@ public class MemberServiceImpl implements MemberService{
     private final JwtTokenProvider jwtTokenProvider;
 
     @Override
+    @Transactional
     public Member join(String memberId, String password, String email) {
         Member member = Member.builder()
                 .username(memberId)
@@ -67,5 +68,12 @@ public class MemberServiceImpl implements MemberService{
    @Override
     public List<Member> findAll() {
         return memberRepository.findAll();
+    }
+    @Override
+    public Member findByUsername(String username) {
+        Member findMember = memberRepository.findByUsername(username).orElseThrow(
+                () -> new IllegalArgumentException("Member not Exist")
+        );
+        return findMember;
     }
 }
