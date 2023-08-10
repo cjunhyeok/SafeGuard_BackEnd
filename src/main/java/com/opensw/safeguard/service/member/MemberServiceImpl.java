@@ -57,4 +57,9 @@ public class MemberServiceImpl implements MemberService{
 
         return tokenInfo;
     }
+
+    @Override
+    public List<Member> findAll() {
+        return memberRepository.findAll();
+    }
 }
