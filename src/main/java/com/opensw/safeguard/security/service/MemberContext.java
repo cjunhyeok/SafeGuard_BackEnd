@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -18,7 +17,10 @@ public class MemberContext implements UserDetails {
 
     private final Member member;
 
-    public Member getMember(){
+
+
+    public Member getMember() {
+
         return member;
     }
 
