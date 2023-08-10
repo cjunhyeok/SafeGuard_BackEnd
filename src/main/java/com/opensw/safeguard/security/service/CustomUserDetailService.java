@@ -29,12 +29,7 @@ public class CustomUserDetailService implements UserDetailsService {
 
     }
     private UserDetails createUserDetails(Member originMember) {
-        MemberContext member = new MemberContext(originMember);
+        return new MemberAdapter(originMember,passwordEncoder);
 
-        return User.builder()
-                .username(member.getUsername())
-                .password(passwordEncoder.encode(member.getPassword()))
-                .roles(member.getRoles().toArray(new String[0]))
-                .build();
     }
 }
