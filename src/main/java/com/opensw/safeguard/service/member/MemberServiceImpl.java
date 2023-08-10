@@ -11,10 +11,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 
-import com.opensw.safeguard.repository.member.MemberRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,5 +63,13 @@ public class MemberServiceImpl implements MemberService{
    @Override
     public List<Member> findAll() {
         return memberRepository.findAll();
+    }
+
+    @Override
+    public Member findByUsername(String username) {
+        Member findMember = memberRepository.findByUsername(username).orElseThrow(
+                () -> new IllegalArgumentException("Member not Exist")
+        );
+        return findMember;
     }
 }
