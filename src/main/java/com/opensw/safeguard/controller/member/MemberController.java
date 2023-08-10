@@ -1,18 +1,20 @@
-package com.opensw.safeguard.controller.join;
+package com.opensw.safeguard.controller.member;
 
 import com.opensw.safeguard.domain.Member;
-import com.opensw.safeguard.domain.dto.*;
+import com.opensw.safeguard.domain.dto.DuplicateUsername;
+import com.opensw.safeguard.domain.dto.EmailConfirmDTO;
+import com.opensw.safeguard.domain.dto.MemberJoinDTO;
+import com.opensw.safeguard.domain.dto.MemberLoginDTO;
 import com.opensw.safeguard.email.AuthCode;
 import com.opensw.safeguard.email.EmailService;
-
-
+import com.opensw.safeguard.security.token.TokenInfo;
 import com.opensw.safeguard.service.member.MemberService;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
-
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,14 +22,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.UnsupportedEncodingException;
 
-@RestController
-@RequiredArgsConstructor
-@Slf4j
-@RequestMapping("/safe")
-public class JoinController {
 
+@RestController
+@RequestMapping("/safe")
+@Slf4j
+@RequiredArgsConstructor
+public class MemberController {
     private final MemberService memberService;
     private final EmailService mailService;
+
+    @PostMapping("/login")
+    public TokenInfo login(@RequestBody MemberLoginDTO memberLoginDTO){
+
+        TokenInfo tokenInfo = memberService.login(memberLoginDTO.getUsername(),memberLoginDTO.getPassword());
+
+        return tokenInfo;
+    }
     @PostMapping("/join")
     public Member join(@RequestBody MemberJoinDTO memberJoinDTODTO){
 
