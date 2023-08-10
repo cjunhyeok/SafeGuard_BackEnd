@@ -7,6 +7,7 @@ import com.opensw.safeguard.domain.dto.MemberJoinDTO;
 import com.opensw.safeguard.domain.dto.MemberLoginDTO;
 import com.opensw.safeguard.email.AuthCode;
 import com.opensw.safeguard.email.EmailService;
+import com.opensw.safeguard.security.service.MemberAdapter;
 import com.opensw.safeguard.security.token.TokenInfo;
 import com.opensw.safeguard.service.member.MemberService;
 import jakarta.mail.MessagingException;
@@ -59,7 +60,7 @@ public class MemberController {
 
     }
     @PostMapping("/test")
-    public void test(@AuthenticationPrincipal User memberContext){
+    public void test(@AuthenticationPrincipal MemberAdapter memberContext){
         log.info(memberContext.toString());
     }
 }
