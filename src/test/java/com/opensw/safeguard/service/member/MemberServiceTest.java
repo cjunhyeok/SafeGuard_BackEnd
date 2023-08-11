@@ -55,4 +55,17 @@ public class MemberServiceTest {
         verify(memberRepository, times(1)).findByUsername(username);
         assertThat(findMember).isNotNull();
     }
+
+    @Test
+    void findByUsernameFailTest() {
+        // given
+        String username = "id1";
+
+        // stub
+        when(memberRepository.findByUsername(username)).thenReturn(Optional.empty());
+
+        // when, then
+        org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class,
+                () -> memberService.findByUsername(username));
+    }
 }
