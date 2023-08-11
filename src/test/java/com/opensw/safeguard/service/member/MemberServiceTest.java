@@ -10,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -37,5 +38,21 @@ public class MemberServiceTest {
         // then
         verify(memberRepository, times(1)).findAll();
         assertThat(findMembers).isNotEmpty();
+    }
+
+    @Test
+    void findByUsernameTest() {
+        // given
+        String username = "id1";
+
+        // stub
+        when(memberRepository.findByUsername(username)).thenReturn(Optional.of(Member.builder().build()));
+
+        // when
+        Member findMember = memberService.findByUsername(username);
+
+        // then
+        verify(memberRepository, times(1)).findByUsername(username);
+        assertThat(findMember).isNotNull();
     }
 }
