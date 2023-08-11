@@ -16,8 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class AlarmServiceImpl implements AlarmService{
 
-    private AlarmRepository alarmRepository;
-    private MemberRepository memberRepository;
+    private final AlarmRepository alarmRepository;
+    private final MemberRepository memberRepository;
 
     @Override
     @Transactional
