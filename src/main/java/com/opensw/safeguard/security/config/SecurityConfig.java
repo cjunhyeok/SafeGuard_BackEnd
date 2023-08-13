@@ -44,8 +44,8 @@ public class SecurityConfig {
                         })
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
                         {
-                            authorizationManagerRequestMatcherRegistry.requestMatchers("/safe/login").permitAll();
-                            authorizationManagerRequestMatcherRegistry.requestMatchers("/safe/join/**").permitAll();
+                            authorizationManagerRequestMatcherRegistry.requestMatchers("/api/login").permitAll();
+                            authorizationManagerRequestMatcherRegistry.requestMatchers("/api/join/**").permitAll();
                             authorizationManagerRequestMatcherRegistry.requestMatchers("/swagger-ui.html/**").permitAll();
                             authorizationManagerRequestMatcherRegistry.anyRequest().authenticated();
                         })

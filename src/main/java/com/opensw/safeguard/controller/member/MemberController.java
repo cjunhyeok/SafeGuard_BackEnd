@@ -25,7 +25,7 @@ import java.io.UnsupportedEncodingException;
 
 
 @RestController
-@RequestMapping("/safe")
+@RequestMapping("/api")
 @Slf4j
 @RequiredArgsConstructor
 public class MemberController {
@@ -40,9 +40,12 @@ public class MemberController {
         return tokenInfo;
     }
     @PostMapping("/join")
-    public Member join(@RequestBody MemberJoinDTO memberJoinDTODTO){
+    public Member join(@RequestBody MemberJoinDTO memberJoinDTO){
 
-        return memberService.join(memberJoinDTODTO.getUsername(), memberJoinDTODTO.getPassword(), memberJoinDTODTO.getEmail());
+        return memberService.join(
+                memberJoinDTO.getUsername(), memberJoinDTO.getPassword(), memberJoinDTO.getEmail(),
+                memberJoinDTO.getRealName(),memberJoinDTO.getPhoneNumber(),memberJoinDTO.getAssociatedPhoneNumber()
+        );
 
 
     }
