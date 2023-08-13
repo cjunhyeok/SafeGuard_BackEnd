@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Getter
@@ -19,11 +20,18 @@ import java.util.List;
 public class MemberAdapter extends User {
     private Member member;
 
+    String asd = "asd";
+
 
     public MemberAdapter(Member member,PasswordEncoder passwordEncoder) {
-        super(member.getUsername(), passwordEncoder.encode(member.getPassword()), List.of(new SimpleGrantedAuthority("ROLE_USER")));
+        super(member.getUsername(), passwordEncoder.encode(member.getPassword()),
+                member.getRoles().stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList()));
+
         this.member = member;
     }
+
 
 
     public MemberAdapter(String subject, String s, Collection<? extends GrantedAuthority> authorities) {

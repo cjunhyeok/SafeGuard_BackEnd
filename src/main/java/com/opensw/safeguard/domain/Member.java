@@ -33,14 +33,27 @@ public class Member extends BaseTimeEntity {
     @Column(length = 255,nullable = false)
     private String password;
 
+    @Column(length = 20)
+    private String realName;
+
     @Column(length = 255,nullable = false,unique = true)
     private String email;
 
+    @Column(length = 10)
+    private String phoneNumber;
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @Builder.Default
+    @CollectionTable(name="associated_phone_number"
+            , joinColumns = @JoinColumn(name= "username", referencedColumnName = "username"))
+    private List<String> associatedPhoneNumber  = new ArrayList<>();
+
+
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
+    @CollectionTable(name="member_roles"
+            , joinColumns = @JoinColumn(name= "username", referencedColumnName = "username"))
     private List<String> roles = new ArrayList<>();
-
-
 
 
 }
