@@ -45,14 +45,14 @@ public class Member extends BaseTimeEntity {
     @ElementCollection(fetch = FetchType.LAZY)
     @Builder.Default
     @CollectionTable(name="associated_phone_number"
-            , joinColumns = @JoinColumn(name= "username", referencedColumnName = "username"))
+            , joinColumns = @JoinColumn(name= "member_id", referencedColumnName = "member_id"))
     private List<String> associatedPhoneNumber  = new ArrayList<>();
 
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     @CollectionTable(name="member_roles"
-            , joinColumns = @JoinColumn(name= "username", referencedColumnName = "username"))
+            , joinColumns = @JoinColumn(name= "member_id", referencedColumnName = "member_id"))
     private List<String> roles = new ArrayList<>();
 
 
