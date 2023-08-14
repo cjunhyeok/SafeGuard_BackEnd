@@ -58,6 +58,9 @@ dependencies {
 
 	//JSONObject
 	implementation 'org.json:json:20200518'
+
+	// 파이어베이스 sdk
+	implementation 'com.google.firebase:firebase-admin:6.8.1'
 }
 
 tasks.named('test') {
