@@ -61,6 +61,9 @@ dependencies {
 
 	// 파이어베이스 sdk
 	implementation 'com.google.firebase:firebase-admin:6.8.1'
+
+	// okhttp
+	implementation("com.squareup.okhttp3:okhttp:4.9.1")
 }
 
 tasks.named('test') {
