@@ -3,6 +3,7 @@ package com.opensw.safeguard.controller.weather;
 import com.opensw.safeguard.domain.weather.Weather;
 import com.opensw.safeguard.domain.weather.WeatherRequestDTO;
 import com.opensw.safeguard.domain.weather.WeatherResponseDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,6 +25,7 @@ import java.time.format.DateTimeFormatter;
 
 @RestController
 @RequestMapping("/api")
+@Slf4j
 public class WeatherController {
     @Value("${weather-serviceKey}")
     private String serviceKey;
@@ -36,8 +38,12 @@ public class WeatherController {
         String pageNo = "1";	//페이지 번호
         String numOfRows = "288";	//한 페이지 결과 수
         String dataType = "JSON";	//데이터 타입
+
+        /**
+         조회 날짜 -1 , 기준시간 2300 , 페이지 결과수 288하면 조회날짜의 모든 데이터를 받아 올 수 있음
+         **/
         LocalDateTime now = LocalDateTime.now().minusDays(1);
-        String base_date = now.format(DateTimeFormatter.ofPattern("yyyyMMdd"));//조회하고싶은 날짜
+        String base_date = now.format(DateTimeFormatter.ofPattern("yyyyMMdd"));//조회 날짜 -1
         String base_time = "2300";	//조회하고 싶은 날짜의 시간 날짜
         String nx = weatherRequestDTO.getNx();	//x좌표
         String ny = weatherRequestDTO.getNy();	//y좌표
@@ -58,7 +64,7 @@ public class WeatherController {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-type", "application/json");
-            System.out.println("Response code: " + conn.getResponseCode());
+            log.info("Response code: {} ",conn.getResponseCode());
             BufferedReader rd;
             if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
                 rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -80,13 +86,14 @@ public class WeatherController {
             JSONObject items = body.getJSONObject("items");
             JSONArray jArray = items.getJSONArray("item");
 
+
             double maxTemp=0;
             double minTemp=0;
             double probability_Of_Precipitation=0;
             for(int i = 0; i < jArray.length(); i++) {
                 JSONObject obj = jArray.getJSONObject(i);
                 String category = obj.getString("category");
-                if(category.equals("PCP")|| category.equals("SNO")) {
+                if(!category.equals("TMX")&&!category.equals("TMN")&&!category.equals("POP")) {
                     continue;
                 }
                 Double fcstValue = obj.getDouble("fcstValue");
@@ -116,7 +123,6 @@ public class WeatherController {
                     .message("OK")
                     .build();
 
-            System.out.println(data);
 
             return ResponseEntity.ok().body(dto);
         }
