@@ -1,0 +1,16 @@
+package com.opensw.safeguard.domain.weather;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@Builder
+public class WeatherRequestDTO {
+
+    private String nx;
+    private String ny;
+}

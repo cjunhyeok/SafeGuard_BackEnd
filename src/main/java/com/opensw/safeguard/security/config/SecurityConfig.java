@@ -47,6 +47,7 @@ public class SecurityConfig {
                             authorizationManagerRequestMatcherRegistry.requestMatchers("/api/login").permitAll();
                             authorizationManagerRequestMatcherRegistry.requestMatchers("/api/join/**").permitAll();
                             authorizationManagerRequestMatcherRegistry.requestMatchers("/swagger-ui.html/**").permitAll();
+                            authorizationManagerRequestMatcherRegistry.requestMatchers("/api/weather").permitAll();
                             authorizationManagerRequestMatcherRegistry.anyRequest().authenticated();
                         })
                 .exceptionHandling(handling ->{
