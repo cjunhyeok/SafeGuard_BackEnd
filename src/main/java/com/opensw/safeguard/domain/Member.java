@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // protected 기본 생성자
 @AllArgsConstructor
-
 public class Member extends BaseTimeEntity {
 
 
