@@ -24,7 +24,9 @@ public class MemberAdapter extends User {
 
 
     public MemberAdapter(Member member,PasswordEncoder passwordEncoder) {
-        super(member.getUsername(), passwordEncoder.encode(member.getPassword()),
+        super(member.getUsername(),
+                passwordEncoder.encode(member.getPassword()),
+//                List.of(new SimpleGrantedAuthority("ROLE_USER")));
                 member.getRoles().stream()
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList()));
