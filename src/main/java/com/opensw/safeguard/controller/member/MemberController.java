@@ -30,7 +30,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.naming.SizeLimitExceededException;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
@@ -71,47 +73,36 @@ public class MemberController {
     }
 
     @PostMapping("/upload")
-    public String createBoard(
+    public ResponseEntity<?> createImage(
              @RequestParam("files") List<MultipartFile> files,@AuthenticationPrincipal MemberAdapter memberAdapter) throws Exception {
 
-        Member member = memberService.findByUsername(memberAdapter.getUsername());
+            Member member = memberService.findByUsername(memberAdapter.getUsername());
+            imageService.addImage(
+                    ImageUpload
+                            .builder()
+                            .build(), files, member);
+            ImageUpload image = imageService.findImage(member.getId());
+            String storedFileName = image.getStoredFileName();
 
-
-        imageService.addImage(ImageUpload
-                .builder()
-                .build(), files,member);
-        log.info("member id = {}", member.getRoles());
-
-
-        ImageUpload image = imageService.findImage(member.getId());
-        String storedFileName = image.getStoredFileName();
-
-        String path = new File("").getAbsolutePath() + "/" + storedFileName;
-
-        return "<img src=" + storedFileName +">";
+            String path = new File("").getAbsolutePath() + "/" + storedFileName;
+            return ResponseEntity.ok().body(ImageUploadDTO.builder().message("ok").build());
 
 
     }
     @GetMapping("/upload")
-    public ResponseEntity<Resource> getImage(@AuthenticationPrincipal MemberAdapter memberAdapter) throws IOException {
+    public ResponseEntity<?> getImage(@AuthenticationPrincipal MemberAdapter memberAdapter) throws IOException {
+                String username = memberAdapter.getUsername();
+                Member byUsername = memberService.findByUsername(username);
+                ImageUpload image = imageService.findImage(byUsername.getId());
 
-            String username = memberAdapter.getUsername();
-            Member byUsername = memberService.findByUsername(username);
-            ImageUpload image = imageService.findImage(byUsername.getId());
 
-
-            String path = new File("").getAbsolutePath() + "/" + image.getStoredFileName();
-            log.info("path = {}",path);
-            FileSystemResource resource = new FileSystemResource(path);
-            if (!resource.exists()) {
-                return null;
-            }
-            HttpHeaders header = new HttpHeaders();
-            Path filePath = null;
-            filePath = Paths.get(path);
-            header.add("Content-Type", Files.probeContentType(filePath));
-            return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
-
+                String path = new File("").getAbsolutePath() + "/" + image.getStoredFileName();
+                FileSystemResource resource = new FileSystemResource(path);
+                HttpHeaders header = new HttpHeaders();
+                Path filePath = null;
+                filePath = Paths.get(path);
+                header.add("Content-Type", Files.probeContentType(filePath));
+                return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
     }
 
     @PostMapping("/join/emailConfirm")

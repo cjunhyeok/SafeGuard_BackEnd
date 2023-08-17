@@ -14,7 +14,8 @@ import java.util.Map;
 
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
+            throws IOException, ServletException {
         final Map<String, Object> body = new HashMap<>();
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         // 응답 객체 초기화
