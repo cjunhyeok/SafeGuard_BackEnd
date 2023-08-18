@@ -5,23 +5,33 @@ import com.opensw.safeguard.domain.dto.DuplicateUsername;
 import com.opensw.safeguard.domain.dto.EmailConfirmDTO;
 import com.opensw.safeguard.domain.dto.MemberJoinDTO;
 import com.opensw.safeguard.domain.dto.MemberLoginDTO;
+import com.opensw.safeguard.domain.image.ImageUpload;
 import com.opensw.safeguard.email.AuthCode;
 import com.opensw.safeguard.email.EmailService;
 import com.opensw.safeguard.security.service.MemberAdapter;
 import com.opensw.safeguard.security.token.TokenInfo;
+import com.opensw.safeguard.service.image.ImageService;
 import com.opensw.safeguard.service.member.MemberService;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 
 
 @RestController
@@ -31,6 +41,8 @@ import java.io.UnsupportedEncodingException;
 public class MemberController {
     private final MemberService memberService;
     private final EmailService mailService;
+
+    private final ImageService imageService;
 
     @PostMapping("/login")
     public TokenInfo login(@RequestBody MemberLoginDTO memberLoginDTO){
@@ -48,6 +60,41 @@ public class MemberController {
         );
 
 
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<?> createImage(
+             @RequestParam("files") List<MultipartFile> files,@AuthenticationPrincipal MemberAdapter memberAdapter) throws Exception {
+
+            Member member = memberService.findByUsername(memberAdapter.getUsername());
+            imageService.addImage(
+                    ImageUpload
+                            .builder()
+                            .build(), files, member);
+            ImageUpload image = imageService.findImage(member.getId());
+            String storedFileName = image.getStoredFileName();
+
+            String path = new File("").getAbsolutePath() + "/" + storedFileName;
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("message","OK");
+            log.info("json = {}",jsonObject);
+            return ResponseEntity.ok().body(jsonObject.toMap());
+
+
+    }
+    @GetMapping("/upload")
+    public ResponseEntity<?> getImage(@AuthenticationPrincipal MemberAdapter memberAdapter) throws IOException {
+                String username = memberAdapter.getUsername();
+                Member byUsername = memberService.findByUsername(username);
+                ImageUpload image = imageService.findImage(byUsername.getId());
+
+
+                String path = new File("").getAbsolutePath() + "/" + image.getStoredFileName();
+                FileSystemResource resource = new FileSystemResource(path);
+                HttpHeaders header = new HttpHeaders();
+                Path filePath = Paths.get(path);
+                header.add("Content-Type", Files.probeContentType(filePath));
+                return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
     }
 
     @PostMapping("/join/emailConfirm")
