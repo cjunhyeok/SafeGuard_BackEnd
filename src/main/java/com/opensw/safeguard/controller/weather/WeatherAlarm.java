@@ -86,10 +86,10 @@ public class WeatherAlarm {
             for(int i = 0; i < jArray.length(); i++) {
                 JSONObject obj = jArray.getJSONObject(i);
                 String category = obj.getString("category");
-                if (!obj.getString("fcstTime").equals(baseTime)) {
+                if (Integer.parseInt(obj.getString("fcstTime")) > Integer.parseInt(baseTime) + 100) {
                     continue;
                 }
-                if(!category.equals("T1H") && !category.equals("RN1") && !category.equals("REH") && !category.equals("WSD")) {
+                if(!category.equals("T1H") && !category.equals("REH") && !category.equals("WSD")) {
                     continue;
                 }
                 Double fcstValue = obj.getDouble("fcstValue");
@@ -98,7 +98,7 @@ public class WeatherAlarm {
                         temperature = fcstValue;
                         break;
                     case "RN1": // 강수량
-                        precipitation = fcstValue;
+//                        precipitation = fcstValue;
                         break;
                     case "REH": // 습도
                         humidity = fcstValue;
@@ -107,15 +107,15 @@ public class WeatherAlarm {
                         windSpeed = fcstValue;
                         break;
                 }
-
-                if (temperature >= 30.0) {
-                    List<DeviceToken> findDeviceTokens = deviceTokenService.findAll();
-                    for (DeviceToken findDeviceToken : findDeviceTokens) {
-                        firebaseCloudMessageService.sendMessageTo(findDeviceToken.getToken(), "폭염주의", "현재 " + temperature + " 이므로 주의하세요.");
-                    }
-                }
-
             }
+
+            if (temperature >= 30.0) {
+                List<DeviceToken> findDeviceTokens = deviceTokenService.findAll();
+                for (DeviceToken findDeviceToken : findDeviceTokens) {
+                    firebaseCloudMessageService.sendMessageTo(findDeviceToken.getToken(), "폭염주의", "현재 " + temperature + " 이므로 주의하세요.");
+                }
+            }
+
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         } catch (ProtocolException e) {
