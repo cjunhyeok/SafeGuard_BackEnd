@@ -7,20 +7,22 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
-public class SpringDocsConfig {
+@Configuration
+@EnableWebMvc
+public class SpringDocsConfig extends WebMvcConfigurationSupport {
     @Bean
     public OpenAPI openAPI() {
 
         Info info = new Info()
-                .title("Example API 문서") // 타이틀
+                .title("Safe-Guard API 문서") // 타이틀
                 .version("v1") // 문서 버전
-                .description("잘못된 부분이나 오류 발생 시 바로 말씀해주세요.") // 문서 설명
-                .contact(new Contact() // 연락처
-                        .name("beekei")
-                        .email("beekei.shin@gmail.com")
-                        .url("https://devbksheen.tistory.com/"));
+                .description("잘못된 부분이나 오류 발생 시 바로 말씀해주세요."); // 문서 설명
 
         // Security 스키마 설정
         SecurityScheme bearerAuth = new SecurityScheme()
@@ -41,4 +43,10 @@ public class SpringDocsConfig {
                 .addSecurityItem(addSecurityItem)
                 .info(info);
     }
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        registry.addResourceHandler("/swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+//        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+//        super.addResourceHandlers(registry);
+//    }
 }
