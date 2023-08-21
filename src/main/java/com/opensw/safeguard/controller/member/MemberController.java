@@ -12,6 +12,9 @@ import com.opensw.safeguard.security.service.MemberAdapter;
 import com.opensw.safeguard.security.token.TokenInfo;
 import com.opensw.safeguard.service.image.ImageService;
 import com.opensw.safeguard.service.member.MemberService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +36,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-
+@Tag(name = "member",description = "멤버 API")
 @RestController
 @RequestMapping("/api")
 @Slf4j
@@ -45,7 +48,7 @@ public class MemberController {
     private final ImageService imageService;
 
     @PostMapping("/login")
-    public TokenInfo login(@RequestBody MemberLoginDTO memberLoginDTO){
+    public TokenInfo login(@RequestBody @Parameter(description = "id,pw",required = true)  MemberLoginDTO memberLoginDTO){
 
         TokenInfo tokenInfo = memberService.login(memberLoginDTO.getUsername(),memberLoginDTO.getPassword());
 
