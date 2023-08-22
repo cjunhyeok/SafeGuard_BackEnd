@@ -11,7 +11,6 @@ import com.opensw.safeguard.service.devicetoken.DeviceTokenService;
 import com.opensw.safeguard.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,7 +29,7 @@ public class AlarmApiController {
     private final DeviceTokenService deviceTokenService;
     private final FirebaseCloudMessageService firebaseCloudMessageService;
 
-    @PostMapping(value = "/api/alarm/{alarmType}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+//    @PostMapping(value = "/api/alarm/{alarmType}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public void alarm(@PathVariable(value = "alarmType")AlarmType alarmType) {
 
         List<Member> findAllMembers = memberService.findAll();
