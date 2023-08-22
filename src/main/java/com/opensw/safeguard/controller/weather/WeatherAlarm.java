@@ -46,6 +46,10 @@ public class WeatherAlarm {
         String nx = "55";
         String ny = "127";
 
+        if (baseTime.length() == 3) {
+            baseTime = "0" + baseTime;
+        }
+
         StringBuilder stringBuilder = new StringBuilder(apiUrl);
         try {
             stringBuilder.append("?" + URLEncoder.encode("ServiceKey","UTF-8") + "=" + serviceKey);
