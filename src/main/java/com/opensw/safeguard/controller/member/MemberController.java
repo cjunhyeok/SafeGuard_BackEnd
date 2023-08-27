@@ -47,13 +47,20 @@ public class MemberController {
 
     private final ImageService imageService;
 
+    /**
+     * 로그인
+     */
     @PostMapping("/login")
-    public TokenInfo login(@RequestBody @Parameter(description = "id,pw",required = true)  MemberLoginDTO memberLoginDTO){
+    public TokenInfo login(@RequestBody MemberLoginDTO memberLoginDTO){
 
         TokenInfo tokenInfo = memberService.login(memberLoginDTO.getUsername(),memberLoginDTO.getPassword());
 
         return tokenInfo;
     }
+
+    /**
+     * ID 회원가입
+     */
     @PostMapping("/join")
     public Member join(@RequestBody MemberJoinDTO memberJoinDTO){
 
@@ -65,11 +72,15 @@ public class MemberController {
 
     }
 
+    /**
+     * 이미지 업로드
+     */
     @PostMapping("/upload")
-    public ResponseEntity<?> createImage(
+    public ResponseEntity<?> uploadImage(
              @RequestParam("files") List<MultipartFile> files,@AuthenticationPrincipal MemberAdapter memberAdapter) throws Exception {
 
             Member member = memberService.findByUsername(memberAdapter.getUsername());
+
             imageService.addImage(
                     ImageUpload
                             .builder()
@@ -85,20 +96,28 @@ public class MemberController {
 
 
     }
+
+    /**
+     * 이미지 불러오기
+     */
     @GetMapping("/upload")
     public ResponseEntity<?> getImage(@AuthenticationPrincipal MemberAdapter memberAdapter) throws IOException {
-                String username = memberAdapter.getUsername();
-                Member byUsername = memberService.findByUsername(username);
+                Member byUsername = memberService.findByUsername(memberAdapter.getUsername());
                 ImageUpload image = imageService.findImage(byUsername.getId());
 
-
                 String path = new File("").getAbsolutePath() + "/" + image.getStoredFileName();
+
                 FileSystemResource resource = new FileSystemResource(path);
                 HttpHeaders header = new HttpHeaders();
                 Path filePath = Paths.get(path);
                 header.add("Content-Type", Files.probeContentType(filePath));
                 return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
     }
+
+
+    /**
+     * 이메일인증
+     */
 
     @PostMapping("/join/emailConfirm")
     public AuthCode emailConfirm(@RequestBody EmailConfirmDTO emailConfirmDTO) throws MessagingException, UnsupportedEncodingException {
@@ -107,10 +126,14 @@ public class MemberController {
 
     }
 
+    /**
+     * ID 중복검사
+     */
+
     @PostMapping("/join/duplicate")
     public DuplicateUsername duplicate(@RequestBody DuplicateUsername duplicateUsername){
-        return memberService.duplicateCheckUsername(duplicateUsername.getUsername());
 
+        return memberService.duplicateCheckUsername(duplicateUsername.getUsername());
     }
     @PostMapping("/test")
     public void test(@AuthenticationPrincipal MemberAdapter memberContext){
