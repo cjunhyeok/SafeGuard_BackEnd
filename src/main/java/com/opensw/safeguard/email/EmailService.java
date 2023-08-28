@@ -1,8 +1,10 @@
 package com.opensw.safeguard.email;
 
 import jakarta.mail.MessagingException;
+import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
@@ -17,6 +19,9 @@ public class EmailService {
     private final SpringTemplateEngine templateEngine;
     private final JavaMailSender emailSender;
     private String authNum;
+
+    @Value("${email}")
+    private String setFrom;
 
 
     public void createCode() {
@@ -42,16 +47,15 @@ public class EmailService {
     }
 
     public MimeMessage createEmailForm(String email) throws MessagingException, UnsupportedEncodingException {
-
         createCode();
-        String setFrom = "q63530@naver.com";
+
         String toEmail = email; //받는 사람
         String title = "Safe-Guard 회원가입 인증 번호";
 
         MimeMessage message = emailSender.createMimeMessage();
         message.addRecipients(MimeMessage.RecipientType.TO, email); //보낼 이메일 설정
         message.setSubject(title); //제목 설정
-        message.setFrom(setFrom); //보내는 이메일
+        message.setFrom(new InternetAddress(setFrom,"Safe-Guard")); //보내는 이메일
         message.setText(setContext(authNum), "utf-8", "html");
 
         return message;
