@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
@@ -43,15 +44,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;
-    private final EmailService mailService;
-
+    private final EmailService emailService;
     private final ImageService imageService;
 
     /**
      * 로그인
      */
     @PostMapping("/login")
-    public TokenInfo login(@RequestBody MemberLoginDTO memberLoginDTO){
+    public TokenInfo login(@RequestBody @Valid MemberLoginDTO memberLoginDTO){
 
         TokenInfo tokenInfo = memberService.login(memberLoginDTO.getUsername(),memberLoginDTO.getPassword());
 
@@ -62,7 +62,7 @@ public class MemberController {
      * ID 회원가입
      */
     @PostMapping("/join")
-    public Member join(@RequestBody MemberJoinDTO memberJoinDTO){
+    public Member join(@RequestBody @Valid MemberJoinDTO memberJoinDTO){
 
         return memberService.join(
                 memberJoinDTO.getUsername(), memberJoinDTO.getPassword(), memberJoinDTO.getEmail(),
@@ -120,9 +120,9 @@ public class MemberController {
      */
 
     @PostMapping("/join/emailConfirm")
-    public AuthCode emailConfirm(@RequestBody EmailConfirmDTO emailConfirmDTO) throws MessagingException, UnsupportedEncodingException {
+    public AuthCode emailConfirm(@RequestBody @Valid EmailConfirmDTO emailConfirmDTO) throws MessagingException, UnsupportedEncodingException {
 
-        return mailService.sendEmail(emailConfirmDTO.getEmail());
+        return emailService.sendEmail(emailConfirmDTO.getEmail());
 
     }
 
@@ -131,7 +131,7 @@ public class MemberController {
      */
 
     @PostMapping("/join/duplicate")
-    public DuplicateUsername duplicate(@RequestBody DuplicateUsername duplicateUsername){
+    public DuplicateUsername duplicate(@RequestBody @Valid DuplicateUsername duplicateUsername){
 
         return memberService.duplicateCheckUsername(duplicateUsername.getUsername());
     }

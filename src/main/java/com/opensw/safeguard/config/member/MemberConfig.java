@@ -1,5 +1,6 @@
 package com.opensw.safeguard.config.member;
 
+import com.opensw.safeguard.email.EmailService;
 import com.opensw.safeguard.repository.image.ImageRepository;
 import com.opensw.safeguard.repository.member.MemberRepository;
 import com.opensw.safeguard.security.token.JwtTokenProvider;
@@ -23,6 +24,7 @@ public class MemberConfig {
     private final ImageHandler imageHandler;
 
     private final ImageRepository imageRepository;
+
     @Bean
     public MemberService memberService(){
         return new MemberServiceImpl(memberRepository,authenticationManagerBuilder,jwtTokenProvider);
@@ -32,6 +34,7 @@ public class MemberConfig {
     public ImageService imageService(){
         return new ImageServiceImpl(imageHandler,imageRepository);
     }
+
 
 
 }
