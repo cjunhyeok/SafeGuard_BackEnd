@@ -3,6 +3,7 @@ package com.opensw.safeguard.domain;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -26,19 +27,19 @@ public class Member extends BaseTimeEntity {
     private Long id;
 
 
-    @Column(length = 255,nullable = false,unique = true,updatable = false)
+    @Column(length = 10,nullable = false,unique = true,updatable = false)
     private String username;
 
-    @Column(length = 255,nullable = false)
+    @Column(length = 20,nullable = false)
     private String password;
 
-    @Column(length = 20)
+    @Column(length = 10)
     private String realName;
 
     @Column(length = 255,nullable = false,unique = true)
     private String email;
 
-    @Column(length = 10)
+    @Column(length = 11)
     private String phoneNumber;
 
     @ElementCollection(fetch = FetchType.LAZY)
