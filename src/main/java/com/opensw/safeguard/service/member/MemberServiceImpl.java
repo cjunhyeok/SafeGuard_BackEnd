@@ -3,6 +3,7 @@ package com.opensw.safeguard.service.member;
 import com.opensw.safeguard.domain.Member;
 
 import com.opensw.safeguard.domain.dto.DuplicateUsername;
+import com.opensw.safeguard.email.EmailService;
 import com.opensw.safeguard.repository.member.MemberRepository;
 import com.opensw.safeguard.security.token.JwtTokenProvider;
 import com.opensw.safeguard.security.token.TokenInfo;
@@ -27,6 +28,7 @@ public class MemberServiceImpl implements MemberService{
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
+
 
     @Override
     @Transactional
