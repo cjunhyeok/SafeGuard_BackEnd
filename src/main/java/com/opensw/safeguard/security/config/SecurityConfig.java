@@ -49,6 +49,7 @@ public class SecurityConfig {
                             authorizationManagerRequestMatcherRegistry.requestMatchers("/v3/api-docs", "/swagger*/**").permitAll();
                             authorizationManagerRequestMatcherRegistry.requestMatchers("/api/weather").permitAll();
                             authorizationManagerRequestMatcherRegistry.requestMatchers("/api/upload").permitAll();
+                            authorizationManagerRequestMatcherRegistry.requestMatchers("/api/findByUsername/**").permitAll();
                             authorizationManagerRequestMatcherRegistry.anyRequest().authenticated();
                         })
                 .exceptionHandling(handling ->{
