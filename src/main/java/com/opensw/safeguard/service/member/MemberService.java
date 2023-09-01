@@ -14,4 +14,8 @@ public interface MemberService {
     TokenInfo login(String memberId, String password);
     List<Member> findAll();
     Member findByUsername(String username);
+
+    boolean existByRealNameAndEmail(String realName,String email);
+
+    Member findByRealName(String realName);
 }

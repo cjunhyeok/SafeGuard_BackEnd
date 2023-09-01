@@ -10,5 +10,6 @@ import lombok.Setter;
 public class AuthCode {
     private String authCode;
 
+
 }
 
