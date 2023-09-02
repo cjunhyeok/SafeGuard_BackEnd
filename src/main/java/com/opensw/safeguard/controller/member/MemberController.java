@@ -1,10 +1,7 @@
 package com.opensw.safeguard.controller.member;
 
 import com.opensw.safeguard.domain.Member;
-import com.opensw.safeguard.domain.dto.DuplicateUsername;
-import com.opensw.safeguard.domain.dto.EmailConfirmDTO;
-import com.opensw.safeguard.domain.dto.MemberJoinDTO;
-import com.opensw.safeguard.domain.dto.MemberLoginDTO;
+import com.opensw.safeguard.domain.dto.*;
 import com.opensw.safeguard.domain.image.ImageUpload;
 import com.opensw.safeguard.email.AuthCode;
 import com.opensw.safeguard.email.EmailService;
@@ -12,8 +9,6 @@ import com.opensw.safeguard.security.service.MemberAdapter;
 import com.opensw.safeguard.security.token.TokenInfo;
 import com.opensw.safeguard.service.image.ImageService;
 import com.opensw.safeguard.service.member.MemberService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
@@ -122,7 +117,7 @@ public class MemberController {
     @PostMapping("/join/emailConfirm")
     public AuthCode emailConfirm(@RequestBody @Valid EmailConfirmDTO emailConfirmDTO) throws MessagingException, UnsupportedEncodingException {
 
-        return emailService.sendEmail(emailConfirmDTO.getEmail());
+        return emailService.sendEmail(emailConfirmDTO.getEmail(),"confirm");
 
     }
 
@@ -138,5 +133,41 @@ public class MemberController {
     @PostMapping("/test")
     public void test(@AuthenticationPrincipal MemberAdapter memberContext){
         log.info(memberContext.toString());
+    }
+
+
+    /**
+     *
+     * 아이디 찾기 1단계
+     * 해당 이메일 ,실명  존재한다면 메일인증 실행
+     */
+
+    @PostMapping("/findByUsername/email")
+    public AuthCode findByUsernameEmail(@RequestBody FindByUsernameRequest request) throws MessagingException, UnsupportedEncodingException {
+        if (memberService.existByRealNameAndEmail(request.getRealName(),request.getEmail()))
+        {
+            return emailService.sendEmail(request.getEmail(),"find");
+        }
+        else
+        {
+            return AuthCode.builder().build();
+        }
+    }
+
+    /**
+     *
+     * 아이디 찾기 2단계
+     * 1단계 성공시 해당 실명 , 이메일에 해당하는 아이디를 반환
+     */
+
+
+    @GetMapping("/findByUsername/get")
+    public FindByUsernameResponse findByUsername(@ModelAttribute FindByUsernameRequest request){
+        return FindByUsernameResponse.builder()
+                .username(
+                        memberService.findByRealName(request.getRealName()).getUsername()
+                )
+                .exitsMember(true)
+                .build();
     }
 }

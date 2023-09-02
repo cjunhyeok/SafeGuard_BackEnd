@@ -86,4 +86,16 @@ public class MemberServiceImpl implements MemberService{
         );
         return findMember;
     }
+
+    @Override
+    public boolean existByRealNameAndEmail(String realName,String email){
+        return memberRepository.existsByRealNameAndEmail(realName,email);
+    }
+    @Override
+    public Member findByRealName(String realName){
+        Member findMember = memberRepository.findByRealName(realName).orElseThrow(
+                () -> new IllegalArgumentException("Member not Exist")
+        );
+        return findMember;
+    }
 }
